@@ -1,0 +1,86 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage[overload]{empheq}
+\usepackage{color}
+\usepackage{fullpage}
+
+\title{Comparaison de PROMETHEE et ELECTRE}
+\author{Dorian Dumez}
+
+\begin{document}
+\maketitle
+
+Le programme nécessite, pour s'exécuter, un fichier de donnés. De plus on peut spécifier grâce aux variables pré-processeurs NBVAR et NBCRIT le nombre de possibilité et le nombre de critère que l'on souhaite utiliser (ce seront par contre toujours les premiers qui seront pris en compte).\\
+
+\section{ELECTRE}
+
+Étant donne la manière don on l'utilise, cette méthode est décomposé en 2 strates. La seconde est le calcul de la relation de préférence S pour un couple (seuil de concordance, seuil de discordance). Et la première est l'appel de la seconde strate pour plusieurs couple ainsi que la synthèse de ses résultats en comptant le nombre de fois que chaque possibilité est non surclassé.\\
+
+La seconde strate, le calcul de la table de vérité de S, se déroule en 2 phases.\\
+Premièrement on va calculer la concordance et la discordance pour tous les couples de possibilités. Pour le calcul de la discordance on remarquera que l'on utilise toujours comme écart entre les notes extrême 98, car la plus petite note possible est 1 et la plus grande 99, même si elles n’apparaissent pas dans l’échantillon de possibilité choisi. On va alors comparer, chaque possibilité $a_i$, à toutes les autres, $a_k$, selon chaque critère $j$, pour déterminer :
+\begin{itemize}
+\item
+si $c_j(a_i) \geqslant c_j(a_k)$, et dans ce cas incrémenter le seuil de concordance. Pour ce point on remarquera que tous les critères ont toujours un poids égal.
+\item
+pendant ce parcours on regarde, à l'aide de la variable $d0$, si la possibilité $a_i$ domine $a_k$. Car si c'est le cas la discordance doit être nulle.
+\item
+Enfin on cherche le critère selon lequel la différence $c_j(a_k) - c_j(a_i)$ est la plus importante.
+\end{itemize}
+A la fin du parcours des critères la concordance est déjà calculés, et les donnés don on dispose nous permettent de calculer en temps constant la discordance.\\
+Pour tous les couples de possibilités on effectue un parcours complet des critères, donc cette première phase s’effectue en $O(\text{ NBVAR }^2 * \text{ NBCRIT })$.\\
+Deuxièmement on va exploiter la concordance et la discordance, précédemment calculé, pour déterminer la table de vérité de S, i.e pour tout couple $( a_i , a_k )$ si $a_i S a_k$. Donc pour tous les couple $( a_i , a_k )$ on teste si la concordance est suffisamment grande et la discordance suffisamment petite. On teste cela vis à vis de seuil pour la concordance et discordance qui sont passé en paramètre de la fonction.\\
+Le calcul de S pour un couple se faisant en temps constant, car on dispose de la valeur de la concordance et de la discordance correspondante, donc cette deuxième partie s'effectue en $O(\text{ NBVAR }^2)$. La fonction en entière est donc en $O(\text{ NBVAR }^2 * \text{ NBCRIT })$.\\
+
+La première strate, la synthèse des données, appelle en boucle la seconde puis synthétise S en cherchant les possibilités non-surclassés. Pour cela on cherche des colonnes de S ne comportant que des 0 (sauf sur la diagonale, car une possibilité se surclasse toujours elle même), car si c'est le cas alors aucune possibilité ne surclasse celle correspondant à cette colonne. Cela nous permet de compter le nombre de fois qu'une variable est non-surclassé. En effet on effectue cela pour tous les couples de seuils de concordance et de discordance don on dispose.\\
+La procédure en entière est donc en $O(\text{ nb seuil concordance } * \text{ nb seuil discordance } * \text{ NBVAR }^2 * \text{ NBCRIT })$.
+
+\section{PROMETHEE}
+
+Pour cette méthode on fait la même chose pour trois couple de seuil d’indifférence. Et cette fois ci aucune synthèse des différentes exécutions n'est faite.\\
+
+Cette méthode s’exécute en 2 phases, le calcul des préférences puis celle des flots.\\
+Premièrement on calcule la valeur de la fonction de préférence, $\pi$, pour toutes les paires de possibilités. Pour chacune d'entre elle on calcule la valeur de $ \pi_k(a_i, a_j)  = P( c_k(a_i) - c_k(a_j) )$ grâce à la fonction de préférence, $P$, fournie. En sommant ces termes, pondéré par un facteur constant (car tous les critères sont égaux), on obtient la valeur de $\pi(a_i, a_j)$.\\
+Cette première partie est donc en $O( \text{ NBVAR }^2 * \text{ NBCRIT } )$, car pour toutes les paires de possibilités on parcours tous les critères.\\
+Dans un deuxième temps on calcule la valeurs des fonctions $\Phi^+$ et $\Phi^-$ pour toutes les possibilités. Pour cela on parcours toutes les possibilités $a_i$, et pour chacune d'entre elles on somme les valeurs $\pi(a_i, a_j)$ et $\pi(a_j,a_i)$ pour tous les $a_j$ ce qui permet de calculer $\Phi^+$ et $\Phi^-$.\\
+Étant donné que les valeurs de $\pi$ sont connues cela se fait en $O( \text{ NBVAR }^2)$.\\
+Après cela on a fini car le flot global, qui sert à classer les possibilités, est égal à $\Phi^+ - \Phi^-$. Le calcul de la relation de préférences avec PROMETHEE se fait donc aussi en $O( \text{ NBVAR }^2 * \text{ NBCRIT } )$.\\
+
+\newpage
+\section{Comparaison des résultats}
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{|*{4}{c|}}
+  \hline
+  ELECTRE & PROMETHEE (10,90) & PROMETHEE (15,85) & PROMETHEE (20,80) \\
+  \hline
+	4 & 63 & 63 & 63 \\
+	42 & 145 & 145 & 145 \\
+	47 & 54 & 54 & 54 \\
+	58 & 58 & 58 & 58 \\
+	63 & 123 & 123 & 123 \\
+	66 & 124 & 124 & 124 \\
+	67 & 68 & 68 & 20 \\
+	68 & 20 & 20 & 68 \\
+	83 & 170 & 170 & 170 \\
+	91 & 81 & 81 & 81 \\
+  \hline
+\end{tabular}
+\caption{10 meilleures possibilités selon les différentes méthodes}
+\label{10best}
+\end{table}
+
+Attention, avant d’interpréter ces résultats, il faut souligner que la méthode ELECTRE produit beaucoup d'égalité. On remarque que les possibilités 123, 124, 145 et 170, bien que n'apparaissant pas de ce tableau, n'ont jamais été surclassé.\\
+
+On commence par observer que la modifications des paramètres de PROMETHEE ne change que très peu les résultats, le top 10 reste le même à une inversion près.\\
+
+Dans le sens PROMETHEE vers ELECTRE, on remarque que les 10 meilleurs éléments proposés par ELECTRE sont rarement surclassé. Sauf pour la possibilité 20, don les notes sont très disparates (entre 1 et 98), donc on peu supposer que ELECTRE pénalise plus les mauvais coté d'une proposition que PROMETHEE.\\
+
+Dans le sens ELECTRE vers PROMETHEE, on remarque que les possibilités qui ne sont jamais surclassé sont, en général, bien classé par PROMETHEE (les 3 réglages sont proches). De même on a encore des exceptions telle que les possibilités 101 ou 131. Et cette fois ci on remarque que ces possibilités sont bonne, mais pas excellente, sur beaucoup de critère. On peut donc supposer que ELECTRE valorise plus les solutions présentant une bonne médiante.\\
+
+Pour conclure on peut dire que les réglages de PROMETHEE n'influent que très peu sur son classement. De plus, on peut aussi supposer que les deux méthodes donnent des résultats similaires avec des comportements différents pour certains types de solution, l'un privilégiant des solutions spécialisés alors que l'autre favorise des solutions plus polyvalentes.
+
+\end{document}

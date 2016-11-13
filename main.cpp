@@ -281,7 +281,7 @@ void calul_preference(const double data[NBVAR][NBCRIT], double prefence[NBVAR][N
 	//debut
 		for (i = 0; i<NBVAR; ++i) { //pour toutes les paires de possibilites
 			for(j = 0; j<NBVAR; ++j) {
-				prefence[i][j] = 0;
+				prefence[i][j] = 0; //iniitalisation a 0 pour incrementer apres
 				for(k = 0; k<NBCRIT; ++k) { //on somme les pi_k
 					prefence[i][j] += (1.0/NBCRIT) * fonction_de_preference(data[i][k] - data[j][k], p, q); //tous les critere on un poid egal
 				}
