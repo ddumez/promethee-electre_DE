@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.12.26)  13 NOV 2016 15:48
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.11.3)  17 NOV 2016 10:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -542,45 +542,46 @@ Underfull \hbox (badness 10000) in paragraph at lines 44--50
  []
 
 [2]
-Overfull \hbox (3.92664pt too wide) in paragraph at lines 56--72
+Overfull \hbox (3.92664pt too wide) in paragraph at lines 60--76
  [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 76--77
+Overfull \hbox (19.22824pt too wide) in paragraph at lines 79--80
+\OT1/cmr/m/n/12 TRE pro-duit beau-coup d'^^Segalit^^Se. Les pos-si-bilit^^Ses 1
+23, 124, 145 et 170, bien que n'apparaissant
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 79--80
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 78--79
+Underfull \hbox (badness 10000) in paragraph at lines 83--84
 
  []
 
 
-Overfull \hbox (2.60117pt too wide) in paragraph at lines 80--81
+Overfull \hbox (2.60117pt too wide) in paragraph at lines 85--86
 []\OT1/cmr/m/n/12 Dans le sens PROMETHEE vers ELEC-TRE, on re-mar-que que les 1
 0 meilleurs ^^Sel^^Sements
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 80--81
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 82--83
+Underfull \hbox (badness 10000) in paragraph at lines 87--88
 
  []
 
 [3] (./rapport.aux) ) 
 Here is how much of TeX's memory you used:
- 3587 strings out of 494985
- 50304 string characters out of 6180355
- 113461 words of memory out of 5000000
- 6736 multiletter control sequences out of 15000+600000
+ 3587 strings out of 494999
+ 50304 string characters out of 6180228
+ 114407 words of memory out of 5000000
+ 6738 multiletter control sequences out of 15000+600000
  11789 words of font info for 46 fonts, out of 8000000 for 9000
- 36 hyphenation exceptions out of 8191
- 51i,8n,27p,597b,200s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 14 hyphenation exceptions out of 8191
+ 51i,8n,27p,665b,200s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
 mi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pf
@@ -590,7 +591,7 @@ texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on rapport.pdf (3 pages, 97193 bytes).
+Output written on rapport.pdf (3 pages, 98067 bytes).
 PDF statistics:
  50 PDF objects out of 1000 (max. 8388607)
  35 compressed objects within 1 object stream
